@@ -6,11 +6,11 @@
 */
 //
 int escPwm[5];
-//
-//unsigned long timer_channel_1, timer_channel_2, timer_channel_3, timer_channel_4, esc_timer, esc_loop_timer;
-//unsigned long timer_1, timer_2, timer_3, timer_4, current_time;
-//unsigned long loop_timer;
-//
+
+unsigned long timer_channel_1, timer_channel_2, timer_channel_3, timer_channel_4, esc_timer, esc_loop_timer;
+unsigned long timer_1, timer_2, timer_3, timer_4, current_time;
+unsigned long loop_timer;
+
 void pwmInit()
 {
 	pinMode(ESC1_PIN,OUTPUT);
@@ -22,6 +22,7 @@ void pwmOutput()
 {
 	//All the information for controlling the motor's is available.
 	//The refresh rate is 250Hz. That means the esc's need there pulse every 4ms.
+
 	while(micros() - loop_timer < 4000);                                      //We wait until 4000us are passed.
 	loop_timer = micros();                                                    //Set the timer for the next loop.
 	digitalWrite(ESC1_PIN,HIGH);

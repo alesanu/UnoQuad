@@ -21,18 +21,32 @@
 extern "C" void __cxa_pure_virtual() {;}
 
 static void checkState();
-void arm(uint8_t value);
-void armingLoop();
+static void arm(uint8_t value);
+static void armingLoop();
 int batVoltage();
 void mixers(int throttle);
 //
 //
-void calculate_pid();
-void pidReset();
+void commandInit();
+void unrecognized();
+void LED_on();
+void LED_off();
+void soft_reset();
+void arm_control();
+void thr_control();
+void imu_angle();
+void cal_angle();
+void setMax();
+void setP();
+void setI();
+void setD();
 void gyroInit();
 void gyroCalibration();
 void gyroReadRaw();
 void gyroCaculate();
+void pidInit();
+void calculate_pid();
+void pidReset();
 void pwmInit();
 void pwmOutput();
 void rxInit();
@@ -45,8 +59,12 @@ void rxRead();
 #include "C:\Program Files (x86)\Arduino\hardware\arduino\avr\variants\standard\pins_arduino.h" 
 #include "C:\Program Files (x86)\Arduino\hardware\arduino\avr\cores\arduino\arduino.h"
 #include <UnoQuad.ino>
+#include <CMD.ino>
 #include <IMU.ino>
+#include <PID.ino>
 #include <PWM.ino>
 #include <PinChangeInt.h>
 #include <RX.ino>
+#include <SerialCommand.cpp>
+#include <SerialCommand.h>
 #include <global.h>

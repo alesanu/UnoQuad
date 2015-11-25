@@ -14,12 +14,6 @@ int RX_isr[4];
 static uint8_t _mode;
 static uint8_t _RX_good;
 
-#define RX_AIL_PIN 8
-#define RX_ELE_PIN 9
-#define RX_THR_PIN 10
-#define RX_RUD_PIN 11
-#define EVERYMS(ms) static uint16_t __CONCAT(_t,__LINE__); for(uint16_t _m = millis(); _m - __CONCAT(_t,__LINE__) >= ms; __CONCAT(_t,__LINE__) = _m)
-
 void rxInit()
 {
 	PCintPort::attachInterrupt(RX_THR_PIN, thr_callback,CHANGE);

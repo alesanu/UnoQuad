@@ -400,17 +400,17 @@ int8_t PCintPort::addPin(uint8_t arduinoPin, PCIntvoidFuncPtr userFunc, uint8_t 
 	else tmp->next=p;
 
 #ifdef DEBUG
-	Serial1.print("addPin. pin given: "); Serial1.print(arduinoPin, DEC);
+	Serial.print("addPin. pin given: "); Serial.print(arduinoPin, DEC);
 	int addr = (int) p;
-	Serial1.print(" instance addr: "); Serial1.println(addr, HEX);
-	Serial1.print("userFunc addr: "); Serial1.println((int)p->PCintFunc, HEX);
+	Serial.print(" instance addr: "); Serial.println(addr, HEX);
+	Serial.print("userFunc addr: "); Serial.println((int)p->PCintFunc, HEX);
 #endif
 
 	enable(p, userFunc, mode);
 #ifdef DEBUG
-	Serial1.print("addPin. pin given: "); Serial1.print(arduinoPin, DEC), Serial1.print (" pin stored: ");
+	Serial.print("addPin. pin given: "); Serial.print(arduinoPin, DEC), Serial.print (" pin stored: ");
 	int addr = (int) p;
-	Serial1.print(" instance addr: "); Serial1.println(addr, HEX);
+	Serial.print(" instance addr: "); Serial.println(addr, HEX);
 #endif
 	return(1);
 }
@@ -430,7 +430,7 @@ int8_t PCintPort::attachInterrupt(uint8_t arduinoPin, PCIntvoidFuncPtr userFunc,
 	port->lastPinView=port->portInputReg;
 
 #ifdef DEBUG
-	Serial1.print("attachInterrupt FUNC: "); Serial1.println(arduinoPin, DEC);
+	Serial.print("attachInterrupt FUNC: "); Serial.println(arduinoPin, DEC);
 #endif
 	// map pin to PCIR register
 	return(port->addPin(arduinoPin,userFunc,mode));
@@ -442,7 +442,7 @@ void PCintPort::detachInterrupt(uint8_t arduinoPin)
 	PCintPin* current;
 	uint8_t mask;
 #ifdef DEBUG
-	Serial1.print("detachInterrupt: "); Serial1.println(arduinoPin, DEC);
+	Serial.print("detachInterrupt: "); Serial.println(arduinoPin, DEC);
 #endif
 	uint8_t portNum = digitalPinToPort(arduinoPin);
 	if (portNum == NOT_A_PORT) return;
