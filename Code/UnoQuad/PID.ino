@@ -1,17 +1,17 @@
 /*
- * PID.ino
- *
- * Created: 11/25/2015 10:37:40 AM
- *  Author: QuocTuanIT
- */ 
+* PID.ino
+*
+* Created: 11/25/2015 10:37:40 AM
+*  Author: QuocTuanIT
+*/
 
 float pidError;
 float lastDErrRoll, lastDErrPitch, lastDErrYaw;
 
 void pidInit()
 {
-	pid.roll.Kp = 1.3;	//stable: 1.3
-	pid.roll.Ki = 0.05;	//stable: 0.05
+	pid.roll.Kp = 1.5;	//stable: 1.3
+	pid.roll.Ki = 0.08;	//stable: 0.05
 	pid.roll.Kd = 25;	//stable: 25
 	pid.roll.max = 400;	//stable: 400
 	
@@ -22,12 +22,33 @@ void pidInit()
 	
 	pid.yaw.Kp = 4.0;  //stable: 4.0
 	pid.yaw.Ki = 0.02; //stable: 0.02
-	pid.yaw.Kd = 0.0;  //stable: 0
+	pid.yaw.Kd = 1.0;  //stable: 0
 	pid.yaw.max= 400;  //stable: 400
+	
+	pid.compas.Kp = 0.1;	//stable:
+	pid.compas.Ki = 0.00;	//stable:
+	pid.compas.Kd = 0.50;	//stable:
+	pid.compas.max = 20;	//stable:
+	
 	pidReset();
 }
 
-void calculate_pid(){
+void caculate_pid_compas(float curAngle, float spAngle)
+{
+	pidError = curAngle - spAngle;
+	pidState.compas.iTerm += pid.compas.Ki * pidError;
+	if(pidState.compas.iTerm > pid.compas.max) pidState.compas.iTerm = pid.compas.max;
+	else if(pidState.compas.iTerm < pid.compas.max * -1) pidState.compas.iTerm = pid.compas.max * -1;
+	
+	pidOut[COM] = pid.compas.Kp * pidError + pidState.compas.iTerm + pid.compas.Kd * (pidError - pidState.compas.lastDErr);
+	if(pidOut[COM] > pid.compas.max)pidOut[COM] = pid.compas.max;
+	else if(pidOut[COM] < pid.compas.max * -1)pidOut[COM] = pid.compas.max * -1;
+	
+	pidState.compas.lastDErr = pidError;
+}
+
+void calculate_pid()
+{
 	//Roll
 	pidError = gyroRate[ROL] - setPoint[ROL];
 	pidState.roll.iTerm += pid.roll.Ki * pidError;
@@ -73,6 +94,8 @@ void pidReset()
 	pidState.pitch.lastDErr = 0;
 	pidState.yaw.iTerm = 0;
 	pidState.yaw.lastDErr = 0;
+	pidState.compas.iTerm = 0;
+	pidState.compas.lastDErr = 0;
 	setPoint[ROL] = 0;
 	setPoint[PIT] = 0;
 	setPoint[YAW] = 0;

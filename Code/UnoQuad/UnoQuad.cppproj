@@ -73,6 +73,10 @@
       <Value>C:/Program Files (x86)/Arduino/libraries</Value>
       <Value>C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/utility</Value>
       <Value>C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire</Value>
+      <Value>C:/Program Files (x86)/Arduino/libraries/Adafruit_Sensor-master/utility</Value>
+      <Value>C:/Program Files (x86)/Arduino/libraries/Adafruit_Sensor-master</Value>
+      <Value>C:/Program Files (x86)/Arduino/libraries/Adafruit_HMC5883_Unified-master/utility</Value>
+      <Value>C:/Program Files (x86)/Arduino/libraries/Adafruit_HMC5883_Unified-master</Value>
       <Value>../../UnoQuad</Value>
       <Value>C:/Program Files (x86)/Arduino/hardware/arduino/avr/variants/standard</Value>
       <Value>C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino</Value>
@@ -108,6 +112,10 @@
       <Value>C:/Program Files (x86)/Arduino/libraries</Value>
       <Value>C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/utility</Value>
       <Value>C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire</Value>
+      <Value>C:/Program Files (x86)/Arduino/libraries/Adafruit_Sensor-master/utility</Value>
+      <Value>C:/Program Files (x86)/Arduino/libraries/Adafruit_Sensor-master</Value>
+      <Value>C:/Program Files (x86)/Arduino/libraries/Adafruit_HMC5883_Unified-master/utility</Value>
+      <Value>C:/Program Files (x86)/Arduino/libraries/Adafruit_HMC5883_Unified-master</Value>
       <Value>../../UnoQuad</Value>
       <Value>C:/Program Files (x86)/Arduino/hardware/arduino/avr/variants/standard</Value>
       <Value>C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino</Value>
@@ -121,7 +129,7 @@
   <avrgcccpp.assembler.debugging.DebugLevel>Default (-Wa,-g)</avrgcccpp.assembler.debugging.DebugLevel>
 </AvrGccCpp>
     </ToolchainSettings>
-    <VMSETTING_IncludePaths>C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino;C:/Program Files (x86)/Arduino/hardware/arduino/avr/variants/standard;../../UnoQuad;C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire;C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/utility;C:/Program Files (x86)/Arduino/libraries;C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries;C:/Program Files (x86)/Visual Micro/Visual Micro for Arduino/Micro Platforms/default/debuggers;C:/Users/QuocTuanIT/Documents/Arduino/libraries;C:/Program Files (x86)/Arduino/hardware/tools/avr/avr/include/;C:/Program Files (x86)/Arduino/hardware/tools/avr//avr/include/avr/;C:/Program Files (x86)/Arduino/hardware/tools/avr/lib/gcc/avr/4.8.1/include;C:/Program Files (x86)/Arduino/libraries/Servo/src;C:/Program Files (x86)/Arduino/libraries/Servo/src/utility;C:/Program Files (x86)/Arduino/hardware/arduino/avr/variants/sanguino;</VMSETTING_IncludePaths>
+    <VMSETTING_IncludePaths>C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino;C:/Program Files (x86)/Arduino/hardware/arduino/avr/variants/standard;../../UnoQuad;C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire;C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/utility;C:/Program Files (x86)/Arduino/libraries;C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries;C:/Program Files (x86)/Visual Micro/Visual Micro for Arduino/Micro Platforms/default/debuggers;C:/Users/QuocTuanIT/Documents/Arduino/libraries;C:/Program Files (x86)/Arduino/hardware/tools/avr/avr/include/;C:/Program Files (x86)/Arduino/hardware/tools/avr//avr/include/avr/;C:/Program Files (x86)/Arduino/hardware/tools/avr/lib/gcc/avr/4.8.1/include;C:/Program Files (x86)/Arduino/libraries/Servo/src;C:/Program Files (x86)/Arduino/libraries/Servo/src/utility;C:/Program Files (x86)/Arduino/hardware/arduino/avr/variants/sanguino;C:/Program Files (x86)/Arduino/libraries/Adafruit_HMC5883_Unified-master;C:/Program Files (x86)/Arduino/libraries/Adafruit_HMC5883_Unified-master/utility;C:/Program Files (x86)/Arduino/libraries/Adafruit_Sensor-master;C:/Program Files (x86)/Arduino/libraries/Adafruit_Sensor-master/utility;</VMSETTING_IncludePaths>
     <VisualMicroSettings>
       <VisualMicroSettings>
         <arduino.upload.port>COM6</arduino.upload.port>
@@ -318,6 +326,10 @@ build.arch=AVR
       <Value>C:/Program Files (x86)/Arduino/libraries</Value>
       <Value>C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/utility</Value>
       <Value>C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire</Value>
+      <Value>C:/Program Files (x86)/Arduino/libraries/Adafruit_Sensor-master/utility</Value>
+      <Value>C:/Program Files (x86)/Arduino/libraries/Adafruit_Sensor-master</Value>
+      <Value>C:/Program Files (x86)/Arduino/libraries/Adafruit_HMC5883_Unified-master/utility</Value>
+      <Value>C:/Program Files (x86)/Arduino/libraries/Adafruit_HMC5883_Unified-master</Value>
       <Value>../../UnoQuad</Value>
       <Value>C:/Program Files (x86)/Arduino/hardware/arduino/avr/variants/standard</Value>
       <Value>C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino</Value>
@@ -353,6 +365,10 @@ build.arch=AVR
       <Value>C:/Program Files (x86)/Arduino/libraries</Value>
       <Value>C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/utility</Value>
       <Value>C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire</Value>
+      <Value>C:/Program Files (x86)/Arduino/libraries/Adafruit_Sensor-master/utility</Value>
+      <Value>C:/Program Files (x86)/Arduino/libraries/Adafruit_Sensor-master</Value>
+      <Value>C:/Program Files (x86)/Arduino/libraries/Adafruit_HMC5883_Unified-master/utility</Value>
+      <Value>C:/Program Files (x86)/Arduino/libraries/Adafruit_HMC5883_Unified-master</Value>
       <Value>../../UnoQuad</Value>
       <Value>C:/Program Files (x86)/Arduino/hardware/arduino/avr/variants/standard</Value>
       <Value>C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino</Value>
@@ -366,7 +382,7 @@ build.arch=AVR
   <avrgcccpp.assembler.debugging.DebugLevel>Default (-Wa,-g)</avrgcccpp.assembler.debugging.DebugLevel>
 </AvrGccCpp>
     </ToolchainSettings>
-    <VMSETTING_IncludePaths>C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino;C:/Program Files (x86)/Arduino/hardware/arduino/avr/variants/standard;../../UnoQuad;C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire;C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/utility;C:/Program Files (x86)/Arduino/libraries;C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries;C:/Program Files (x86)/Visual Micro/Visual Micro for Arduino/Micro Platforms/default/debuggers;C:/Users/QuocTuanIT/Documents/Arduino/libraries;C:/Program Files (x86)/Arduino/hardware/tools/avr/avr/include/;C:/Program Files (x86)/Arduino/hardware/tools/avr//avr/include/avr/;C:/Program Files (x86)/Arduino/hardware/tools/avr/lib/gcc/avr/4.8.1/include;C:/Program Files (x86)/Arduino/libraries/Servo/src;C:/Program Files (x86)/Arduino/libraries/Servo/src/utility;C:/Program Files (x86)/Arduino/hardware/arduino/avr/variants/sanguino;</VMSETTING_IncludePaths>
+    <VMSETTING_IncludePaths>C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino;C:/Program Files (x86)/Arduino/hardware/arduino/avr/variants/standard;../../UnoQuad;C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire;C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/utility;C:/Program Files (x86)/Arduino/libraries;C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries;C:/Program Files (x86)/Visual Micro/Visual Micro for Arduino/Micro Platforms/default/debuggers;C:/Users/QuocTuanIT/Documents/Arduino/libraries;C:/Program Files (x86)/Arduino/hardware/tools/avr/avr/include/;C:/Program Files (x86)/Arduino/hardware/tools/avr//avr/include/avr/;C:/Program Files (x86)/Arduino/hardware/tools/avr/lib/gcc/avr/4.8.1/include;C:/Program Files (x86)/Arduino/libraries/Servo/src;C:/Program Files (x86)/Arduino/libraries/Servo/src/utility;C:/Program Files (x86)/Arduino/hardware/arduino/avr/variants/sanguino;C:/Program Files (x86)/Arduino/libraries/Adafruit_HMC5883_Unified-master;C:/Program Files (x86)/Arduino/libraries/Adafruit_HMC5883_Unified-master/utility;C:/Program Files (x86)/Arduino/libraries/Adafruit_Sensor-master;C:/Program Files (x86)/Arduino/libraries/Adafruit_Sensor-master/utility;</VMSETTING_IncludePaths>
     <VisualMicroSettings>
       <VisualMicroSettings>
         <arduino.upload.port>COM6</arduino.upload.port>
@@ -532,6 +548,9 @@ build.arch=AVR
   </PropertyGroup>
   <ItemGroup>
     <None Include="CMD.ino">
+      <SubType>compile</SubType>
+    </None>
+    <None Include="COMPAS.ino">
       <SubType>compile</SubType>
     </None>
     <None Include="IMU.ino">

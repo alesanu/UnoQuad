@@ -11,7 +11,9 @@
 
 //#define USE_CMD
 //#define OUT_RX
-//#define OUT_MOTOR
+//#define OUT_GYRO
+//#define OUT_COMPAS
+//#define OUT_PID
 
 #define ESC1_PIN	4
 #define ESC2_PIN	5
@@ -45,12 +47,14 @@
 #define ROL 0
 #define PIT 1
 #define YAW 2
+#define COM 3
 
 typedef struct {
 	struct pidGain {float Kp,Ki,Kd; int max;};
 	struct pidGain roll;
 	struct pidGain pitch;
 	struct pidGain yaw;
+	struct pidGain compas;
 } pid_param_t;
 
 typedef struct{
@@ -58,6 +62,7 @@ typedef struct{
 	struct pidstate	roll;
 	struct pidstate pitch;
 	struct pidstate yaw;
+	struct pidstate compas;
 } pid_state_t;
 
 typedef struct

@@ -5,6 +5,8 @@
 *  Author: QuocTuanIT
 */
 #include <Wire.h>
+#include <Adafruit_Sensor.h>
+#include <Adafruit_HMC5883_U.h>
 #include <avr/wdt.h>
 #include "SerialCommand.h"
 #include "global.h"
@@ -15,7 +17,7 @@ double gyroRaw[3];
 float  gyroRate[3];
 double gyroCal[3];
 float  setPoint[3];
-float  pidOut[3];
+float  pidOut[4];// ROLL > PITCH > YAW > COMPAS
 
 pid_param_t pid;
 pid_state_t pidState;
@@ -118,12 +120,13 @@ void setup()
 	pwmInit();
 	pidInit();
 	#ifdef USE_CMD
-		commandInit();
+	commandInit();
 	#endif
 	delay(2000);
-	
+	compasInit();
 	gyroInit();
 	delay(250); //Gyro Stable
+
 	gyroCalibration();
 	
 	rxInit();
@@ -131,6 +134,13 @@ void setup()
 	digitalWrite(LED_PIN,HIGH);
 	Serial.println("Init Success");
 }
+
+float compasAngle;
+float compasPID;
+float compasSP = 290;
+bool compasFlag;
+#define CW	1
+#define CCW	0
 
 void loop()
 {
@@ -140,18 +150,43 @@ void loop()
 	checkState();
 	armingLoop();
 	#ifdef USE_CMD
-		command.readSerial();
+	command.readSerial();
 	#endif
 
 	calculate_pid();
+	
+	compasAngle = compasGetAngle();
+	if (compasAngle > (215 + compasSP ) || compasAngle < compasSP)
+	{
+		compasFlag = CW;
+		compasPID = 360 - compasAngle + compasSP;
+	}
+	else if ( compasAngle > compasSP && compasAngle < (compasSP + 215))
+	{
+		compasFlag = CCW;
+		compasPID = compasAngle;
+	}
+	caculate_pid_compas(compasPID , compasSP);
 	
 	if (State.Armed && !State.ThrottleOff)
 	{
 		mixers(RX_raw[THR]);
 
-		setPoint[ROL] = RX[AIL]/3;
+		if(RX[AIL] == 0) setPoint[ROL] = -0.28;
+		else  setPoint[ROL] = RX[AIL]/3;
+		
+		//	setPoint[ROL] = RX[AIL]/3;
 		setPoint[PIT] = -RX[ELE]/3;
-		setPoint[YAW] = RX[RUD]/3;
+		
+		if (RX[RUD] == 0)
+		{
+			if ( compasFlag = CW)
+			{
+				setPoint[YAW] = pidOut[COM];
+			}
+			else setPoint[YAW] = -pidOut[COM];
+		}
+		else setPoint[YAW] = RX[RUD]/3;
 	}
 	else
 	{
@@ -164,10 +199,27 @@ void loop()
 	pwmOutput();
 	
 	
+	#ifdef OUT_PID
+	Serial.print("COMPAS: "); Serial.print(compasAngle); Serial.print("\t");
+	Serial.println(pidOut[COM]);
+	#endif
+	
 	#ifdef OUT_RX
 	Serial.print("AIL: "); Serial.print(RX[AIL]); Serial.print("\t");
 	Serial.print("ELE: "); Serial.print(RX[ELE]); Serial.print("\t");
 	Serial.print("RUD: "); Serial.print(RX[RUD]); Serial.print("\t");
 	Serial.print("THR: "); Serial.print(RX_raw[THR]); Serial.print("\n");
+	delay(100);
+	#endif
+	
+	#ifdef OUT_GYRO
+	Serial.print("R: "); Serial.print(gyroRate[ROL]); Serial.print("   ");
+	Serial.print("P: "); Serial.print(gyroRate[PIT]); Serial.print("   ");
+	Serial.print("Y: "); Serial.print(gyroRate[YAW]); Serial.print("\n");
+	delay(100);
+	#endif
+	
+	#ifdef OUT_COMPAS
+	Serial.print("COMPAS: "); Serial.print(compasGetAngle()); Serial.print("\n");
 	#endif
 }

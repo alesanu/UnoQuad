@@ -40,11 +40,14 @@ void setMax();
 void setP();
 void setI();
 void setD();
+void compasInit();
+float compasGetAngle();
 void gyroInit();
 void gyroCalibration();
 void gyroReadRaw();
 void gyroCaculate();
 void pidInit();
+void caculate_pid_compas(float curAngle, float spAngle);
 void calculate_pid();
 void pidReset();
 void pwmInit();
@@ -60,6 +63,7 @@ void rxRead();
 #include "C:\Program Files (x86)\Arduino\hardware\arduino\avr\cores\arduino\arduino.h"
 #include <UnoQuad.ino>
 #include <CMD.ino>
+#include <COMPAS.ino>
 #include <IMU.ino>
 #include <PID.ino>
 #include <PWM.ino>
