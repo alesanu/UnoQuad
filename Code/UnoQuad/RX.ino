@@ -7,19 +7,20 @@
 */
 #include "PinChangeInt.h"
 
-int RX[4];
-int RX_raw[4];
+int RX[5];
+int RX_raw[5];
 uint8_t RX_good;
-int RX_isr[4];
+int RX_isr[5];
 static uint8_t _mode;
 static uint8_t _RX_good;
 
 void rxInit()
 {
-	PCintPort::attachInterrupt(RX_THR_PIN, thr_callback,CHANGE);
-	PCintPort::attachInterrupt(RX_RUD_PIN, rud_callback,CHANGE);
 	PCintPort::attachInterrupt(RX_AIL_PIN, ail_callback,CHANGE);
 	PCintPort::attachInterrupt(RX_ELE_PIN, ele_callback,CHANGE);
+	PCintPort::attachInterrupt(RX_THR_PIN, thr_callback,CHANGE);
+	PCintPort::attachInterrupt(RX_RUD_PIN, rud_callback,CHANGE);
+	PCintPort::attachInterrupt(RX_AUX_PIN, aux_callback,CHANGE);
 }
 
 void thr_callback()
@@ -79,8 +80,22 @@ void ele_callback()
 		_RX_good |= _BV(ELE);
 	}
 }
+void aux_callback()
+{
+	static uint16_t _start;
+	uint16_t t = micros();
+	sei();
+	
+	if (digitalRead(RX_AUX_PIN))
+	_start = t;
+	else
+	{
+		RX_isr[AUX] = t - _start;
+		_RX_good |= _BV(AUX);
+	}
+}
 
-uint16_t RX_ZERO[]={PWM_RC_MID,PWM_RC_MID,PWM_RC_MID,PWM_RC_LOW};
+uint16_t RX_ZERO[]={PWM_RC_MID,PWM_RC_MID,PWM_RC_MID,PWM_RC_LOW,PWM_RC_MID};
 void rxRead()
 {
 	int b;
@@ -89,7 +104,7 @@ void rxRead()
 		RX_good = _RX_good;
 		_RX_good = 0;
 	}
-	for (uint8_t i = 0; i < 4; i++)
+	for (uint8_t i = 0; i < 5; i++)
 	{
 		b = RX_isr[i];
 		if (b >= 900 && b <= 2100)
@@ -97,17 +112,13 @@ void rxRead()
 			RX_raw[i] = b;
 			RX[i] = (int16_t)(RX_raw[i] - RX_ZERO[i]) >> 2;
 		}
-	}
-	for (int i=0; i<3; i++)
-	{
+		
 		RX[i]=limit(RX[i],-100,100);
 		if ( RX[i] >= -NORMAL_CUTOFF && RX[i] <= NORMAL_CUTOFF ) RX[i]=0;
 		else if ( RX[i] >  NORMAL_CUTOFF ) RX[i] -=NORMAL_CUTOFF;
 		else if ( RX[i] < -NORMAL_CUTOFF ) RX[i] +=NORMAL_CUTOFF;
-		
 	}
 
-	
 	RX[THR]	>>= 1;
 	if(RX[THR]<THR_CUTOFF) RX[THR]=0;
 	else if (RX[THR]>100) RX[THR]=100;

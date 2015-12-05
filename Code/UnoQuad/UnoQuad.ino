@@ -5,19 +5,14 @@
 *  Author: QuocTuanIT
 */
 #include <Wire.h>
-#include <Adafruit_Sensor.h>
-#include <Adafruit_HMC5883_U.h>
 #include <avr/wdt.h>
 #include "SerialCommand.h"
 #include "global.h"
 
 int battery_voltage;
 
-double gyroRaw[3];
-float  gyroRate[3];
-double gyroCal[3];
 float  setPoint[3];
-float  pidOut[4];// ROLL > PITCH > YAW > COMPAS
+float  pidOut[3];
 
 pid_param_t pid;
 pid_state_t pidState;
@@ -25,9 +20,13 @@ state_t State;
 SerialCommand command;
 
 extern int escPwm[5];
-extern int RX[4];
-extern int RX_raw[4];
+extern int RX[5];
+extern int RX_raw[5];
+extern int RX_isr[5];
 extern uint8_t RX_good;
+extern double gyroRaw[3];
+extern double gyroRate[3];
+extern double gyroCal[3];
 
 static void checkState()
 {
@@ -85,18 +84,19 @@ int batVoltage()
 }
 void mixers(int throttle)
 {
-	//	  (4)\   /(1)
+	//	  (1)\   /(2)
 	//        \ /              x
 	//         X		       |
 	//        / \         y____|
-	//    (3)/   \(2)
+	//    (4)/   \(3)
 	//
 	//region of mixer PID Roll-Pitch-Yaw-Throttle
 	if (throttle > 1800) throttle = 1800; //full throttle.
-	escPwm[1] = throttle - pidOut[PIT] + pidOut[ROL] - pidOut[YAW];
-	escPwm[2] = throttle + pidOut[PIT] + pidOut[ROL] + pidOut[YAW];
-	escPwm[3] = throttle + pidOut[PIT] - pidOut[ROL] - pidOut[YAW];
-	escPwm[4] = throttle - pidOut[PIT] - pidOut[ROL] + pidOut[YAW];
+	escPwm[1] = throttle - pidOut[ROL] - pidOut[PIT] + pidOut[YAW];
+	escPwm[2] = throttle + pidOut[ROL] - pidOut[PIT] - pidOut[YAW];
+	escPwm[3] = throttle + pidOut[ROL] + pidOut[PIT] + pidOut[YAW];
+	escPwm[4] = throttle - pidOut[ROL] + pidOut[PIT] - pidOut[YAW];
+
 
 	//region of battery low voltage compensate
 	int bat = batVoltage();
@@ -107,7 +107,7 @@ void mixers(int throttle)
 	//region of limit output
 	for (uint8_t i=1; i<=4; i++)
 	{
-		escPwm[i] = limit(escPwm[i],1200,2000);
+		escPwm[i] = limit(escPwm[i],ESC_PWM_MIN,ESC_PWM_MAX);
 	}
 }
 
@@ -117,30 +117,31 @@ void setup()
 	wdt_disable(); //disable watchdog timer
 	pinMode(LED_PIN,OUTPUT);
 	Serial.begin(115200);
-	pwmInit();
+	escInit();
 	pidInit();
+	gyroInit();
+	delay(250);
+	gyroCalibration();
+	rxInit();
 	#ifdef USE_CMD
 	commandInit();
 	#endif
-	delay(2000);
-	compasInit();
-	gyroInit();
-	delay(250); //Gyro Stable
-
-	gyroCalibration();
-	
-	rxInit();
-	
 	digitalWrite(LED_PIN,HIGH);
 	Serial.println("Init Success");
 }
 
-float compasAngle;
-float compasPID;
-float compasSP = 290;
-bool compasFlag;
-#define CW	1
-#define CCW	0
+int throttleCapture;
+int landing()
+{
+	EVERYMS(1000) throttleCapture = throttleCapture*0.99;
+	if (throttleCapture<900)
+	{
+		throttleCapture = 900;
+		arm(OFF);
+	}
+	
+	return throttleCapture;
+}
 
 void loop()
 {
@@ -149,44 +150,24 @@ void loop()
 	rxRead();
 	checkState();
 	armingLoop();
-	#ifdef USE_CMD
-	command.readSerial();
-	#endif
 
-	calculate_pid();
-	
-	compasAngle = compasGetAngle();
-	if (compasAngle > (215 + compasSP ) || compasAngle < compasSP)
-	{
-		compasFlag = CW;
-		compasPID = 360 - compasAngle + compasSP;
-	}
-	else if ( compasAngle > compasSP && compasAngle < (compasSP + 215))
-	{
-		compasFlag = CCW;
-		compasPID = compasAngle;
-	}
-	caculate_pid_compas(compasPID , compasSP);
+	EVERYMS(4) calculate_pid();
 	
 	if (State.Armed && !State.ThrottleOff)
 	{
-		mixers(RX_raw[THR]);
-
-		if(RX[AIL] == 0) setPoint[ROL] = -0.28;
-		else  setPoint[ROL] = RX[AIL]/3;
-		
-		//	setPoint[ROL] = RX[AIL]/3;
-		setPoint[PIT] = -RX[ELE]/3;
-		
-		if (RX[RUD] == 0)
+		if (RX[AUX] > 0)
 		{
-			if ( compasFlag = CW)
-			{
-				setPoint[YAW] = pidOut[COM];
-			}
-			else setPoint[YAW] = -pidOut[COM];
+			mixers(landing());
 		}
-		else setPoint[YAW] = RX[RUD]/3;
+		else
+		{
+			throttleCapture = RX_raw[THR];
+			mixers(RX_raw[THR]);
+		}
+		
+		setPoint[ROL] = RX[AIL]/3;
+		setPoint[PIT] = -RX[ELE]/3;
+		setPoint[YAW] = RX[RUD]/3;
 	}
 	else
 	{
@@ -195,31 +176,13 @@ void loop()
 		setPoint[YAW] = 0;
 		escPwm[1] = escPwm[2] = escPwm[3] = escPwm[4] = 1000;
 	}
-
-	pwmOutput();
 	
+	for(uint8_t i=1; i<=4; i++) pwmWrite(i,escPwm[i]);
 	
-	#ifdef OUT_PID
-	Serial.print("COMPAS: "); Serial.print(compasAngle); Serial.print("\t");
-	Serial.println(pidOut[COM]);
+	#ifdef USE_CMD
+	command.readSerial();
 	#endif
-	
-	#ifdef OUT_RX
-	Serial.print("AIL: "); Serial.print(RX[AIL]); Serial.print("\t");
-	Serial.print("ELE: "); Serial.print(RX[ELE]); Serial.print("\t");
-	Serial.print("RUD: "); Serial.print(RX[RUD]); Serial.print("\t");
-	Serial.print("THR: "); Serial.print(RX_raw[THR]); Serial.print("\n");
-	delay(100);
-	#endif
-	
-	#ifdef OUT_GYRO
-	Serial.print("R: "); Serial.print(gyroRate[ROL]); Serial.print("   ");
-	Serial.print("P: "); Serial.print(gyroRate[PIT]); Serial.print("   ");
-	Serial.print("Y: "); Serial.print(gyroRate[YAW]); Serial.print("\n");
-	delay(100);
-	#endif
-	
-	#ifdef OUT_COMPAS
-	Serial.print("COMPAS: "); Serial.print(compasGetAngle()); Serial.print("\n");
+	#ifdef DEBUG
+	debugProcess();
 	#endif
 }

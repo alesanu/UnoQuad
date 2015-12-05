@@ -9,11 +9,11 @@
 #ifndef GLOBAL_H_
 #define GLOBAL_H_
 
-//#define USE_CMD
+//#define DEBUG
+//#define OUT_MOTOR
 //#define OUT_RX
 //#define OUT_GYRO
-//#define OUT_COMPAS
-//#define OUT_PID
+//#define USE_CMD
 
 #define ESC1_PIN	4
 #define ESC2_PIN	5
@@ -24,6 +24,7 @@
 #define RX_ELE_PIN	9
 #define RX_THR_PIN	10
 #define RX_RUD_PIN	11
+#define RX_AUX_PIN	2
 
 #define ON		1
 #define OFF		0
@@ -31,6 +32,10 @@
 #define ARM_DELAY			500	// in ms
 #define RX_THRESHOLD		50  // arming ON/OFF
 #define THROTTLE_OFF		5
+
+
+#define ESC_PWM_MIN			1000
+#define ESC_PWM_MAX			2000
 
 //pulse MAX/MIN for RX PWM
 #define PWM_RC_LOW		1000
@@ -43,18 +48,17 @@
 #define ELE				1
 #define RUD				2
 #define THR				3
+#define AUX				4
 
 #define ROL 0
 #define PIT 1
 #define YAW 2
-#define COM 3
 
 typedef struct {
 	struct pidGain {float Kp,Ki,Kd; int max;};
 	struct pidGain roll;
 	struct pidGain pitch;
 	struct pidGain yaw;
-	struct pidGain compas;
 } pid_param_t;
 
 typedef struct{
@@ -62,7 +66,6 @@ typedef struct{
 	struct pidstate	roll;
 	struct pidstate pitch;
 	struct pidstate yaw;
-	struct pidstate compas;
 } pid_state_t;
 
 typedef struct
@@ -99,7 +102,7 @@ typedef struct
 #define BLINK(pin)	(digitalRead(pin)) ? (digitalWrite(pin,LOW)):(digitalWrite(pin,HIGH))
 
 
-int limit(int value, int low, int high)
+double limit(double value, double low, double high)
 {
 	if (value < low) return low;
 	else if (value > high) return high;
