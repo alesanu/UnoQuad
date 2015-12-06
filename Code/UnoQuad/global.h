@@ -24,7 +24,7 @@
 #define RX_ELE_PIN	9
 #define RX_THR_PIN	10
 #define RX_RUD_PIN	11
-#define RX_AUX_PIN	2
+#define RX_AUX_PIN	12
 
 #define ON		1
 #define OFF		0
@@ -97,9 +97,16 @@ typedef struct
 #define _REG_BIT(r,b)	_REG_BIT2(r,b)
 
 /// LED BUZZ
-#define LED_PIN		12
-#define BUZZ_PIN	1
+#define LED_PIN		13
+#define BUZZ_PIN	15
 #define BLINK(pin)	(digitalRead(pin)) ? (digitalWrite(pin,LOW)):(digitalWrite(pin,HIGH))
+
+void beep(uint16_t t)
+{
+  digitalWrite(BUZZ_PIN,HIGH);
+  for(uint16_t i=0; i<t; i++ ) delay(1);
+  digitalWrite(BUZZ_PIN,LOW);
+}
 
 
 double limit(double value, double low, double high)

@@ -39,6 +39,7 @@ static void checkState()
 
 static void arm(uint8_t value)
 {
+  beep(100);
 	if (value && !State.Armed)
 	{
 		State.Armed = ON;
@@ -115,7 +116,7 @@ void setup()
 {
 	MCUSR = 0;
 	wdt_disable(); //disable watchdog timer
-	pinMode(LED_PIN,OUTPUT);
+	pinMode(LED_PIN,OUTPUT); pinMode(BUZZ_PIN,OUTPUT); digitalWrite(BUZZ_PIN,LOW);
 	Serial.begin(115200);
 	escInit();
 	pidInit();
@@ -127,6 +128,7 @@ void setup()
 	commandInit();
 	#endif
 	digitalWrite(LED_PIN,HIGH);
+  beep(500);
 	Serial.println("Init Success");
 }
 
