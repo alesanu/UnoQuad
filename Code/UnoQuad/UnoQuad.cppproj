@@ -73,10 +73,8 @@
       <Value>C:/Program Files (x86)/Arduino/libraries</Value>
       <Value>C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/utility</Value>
       <Value>C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire</Value>
-      <Value>C:/Program Files (x86)/Arduino/libraries/Adafruit_Sensor-master/utility</Value>
-      <Value>C:/Program Files (x86)/Arduino/libraries/Adafruit_Sensor-master</Value>
-      <Value>C:/Program Files (x86)/Arduino/libraries/Adafruit_HMC5883_Unified-master/utility</Value>
-      <Value>C:/Program Files (x86)/Arduino/libraries/Adafruit_HMC5883_Unified-master</Value>
+      <Value>C:/Program Files (x86)/Arduino/libraries/Servo/src/utility</Value>
+      <Value>C:/Program Files (x86)/Arduino/libraries/Servo/src</Value>
       <Value>../../UnoQuad</Value>
       <Value>C:/Program Files (x86)/Arduino/hardware/arduino/avr/variants/standard</Value>
       <Value>C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino</Value>
@@ -112,10 +110,8 @@
       <Value>C:/Program Files (x86)/Arduino/libraries</Value>
       <Value>C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/utility</Value>
       <Value>C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire</Value>
-      <Value>C:/Program Files (x86)/Arduino/libraries/Adafruit_Sensor-master/utility</Value>
-      <Value>C:/Program Files (x86)/Arduino/libraries/Adafruit_Sensor-master</Value>
-      <Value>C:/Program Files (x86)/Arduino/libraries/Adafruit_HMC5883_Unified-master/utility</Value>
-      <Value>C:/Program Files (x86)/Arduino/libraries/Adafruit_HMC5883_Unified-master</Value>
+      <Value>C:/Program Files (x86)/Arduino/libraries/Servo/src/utility</Value>
+      <Value>C:/Program Files (x86)/Arduino/libraries/Servo/src</Value>
       <Value>../../UnoQuad</Value>
       <Value>C:/Program Files (x86)/Arduino/hardware/arduino/avr/variants/standard</Value>
       <Value>C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino</Value>
@@ -326,10 +322,8 @@ build.arch=AVR
       <Value>C:/Program Files (x86)/Arduino/libraries</Value>
       <Value>C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/utility</Value>
       <Value>C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire</Value>
-      <Value>C:/Program Files (x86)/Arduino/libraries/Adafruit_Sensor-master/utility</Value>
-      <Value>C:/Program Files (x86)/Arduino/libraries/Adafruit_Sensor-master</Value>
-      <Value>C:/Program Files (x86)/Arduino/libraries/Adafruit_HMC5883_Unified-master/utility</Value>
-      <Value>C:/Program Files (x86)/Arduino/libraries/Adafruit_HMC5883_Unified-master</Value>
+      <Value>C:/Program Files (x86)/Arduino/libraries/Servo/src/utility</Value>
+      <Value>C:/Program Files (x86)/Arduino/libraries/Servo/src</Value>
       <Value>../../UnoQuad</Value>
       <Value>C:/Program Files (x86)/Arduino/hardware/arduino/avr/variants/standard</Value>
       <Value>C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino</Value>
@@ -365,10 +359,8 @@ build.arch=AVR
       <Value>C:/Program Files (x86)/Arduino/libraries</Value>
       <Value>C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire/utility</Value>
       <Value>C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries/Wire</Value>
-      <Value>C:/Program Files (x86)/Arduino/libraries/Adafruit_Sensor-master/utility</Value>
-      <Value>C:/Program Files (x86)/Arduino/libraries/Adafruit_Sensor-master</Value>
-      <Value>C:/Program Files (x86)/Arduino/libraries/Adafruit_HMC5883_Unified-master/utility</Value>
-      <Value>C:/Program Files (x86)/Arduino/libraries/Adafruit_HMC5883_Unified-master</Value>
+      <Value>C:/Program Files (x86)/Arduino/libraries/Servo/src/utility</Value>
+      <Value>C:/Program Files (x86)/Arduino/libraries/Servo/src</Value>
       <Value>../../UnoQuad</Value>
       <Value>C:/Program Files (x86)/Arduino/hardware/arduino/avr/variants/standard</Value>
       <Value>C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino</Value>
@@ -550,7 +542,7 @@ build.arch=AVR
     <None Include="CMD.ino">
       <SubType>compile</SubType>
     </None>
-    <None Include="COMPAS.ino">
+    <None Include="DEBUG.ino">
       <SubType>compile</SubType>
     </None>
     <None Include="IMU.ino">

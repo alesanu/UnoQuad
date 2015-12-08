@@ -23,9 +23,10 @@ extern "C" void __cxa_pure_virtual() {;}
 static void checkState();
 static void arm(uint8_t value);
 static void armingLoop();
-int batVoltage();
+void batVoltage();
 void mixers(int throttle);
 //
+int landing();
 //
 void commandInit();
 void unrecognized();
@@ -40,30 +41,30 @@ void setMax();
 void setP();
 void setI();
 void setD();
-void compasInit();
-float compasGetAngle();
+void debugProcess();
 void gyroInit();
 void gyroCalibration();
 void gyroReadRaw();
 void gyroCaculate();
 void pidInit();
-void caculate_pid_compas(float curAngle, float spAngle);
 void calculate_pid();
 void pidReset();
-void pwmInit();
-void pwmOutput();
+void writeTo4Escs(int throttle);
+void escInit();
+void pwmWrite(uint8_t chanel, uint16_t micro);
 void rxInit();
 void thr_callback();
 void rud_callback();
 void ail_callback();
 void ele_callback();
+void aux_callback();
 void rxRead();
 
 #include "C:\Program Files (x86)\Arduino\hardware\arduino\avr\variants\standard\pins_arduino.h" 
 #include "C:\Program Files (x86)\Arduino\hardware\arduino\avr\cores\arduino\arduino.h"
 #include <UnoQuad.ino>
 #include <CMD.ino>
-#include <COMPAS.ino>
+#include <DEBUG.ino>
 #include <IMU.ino>
 #include <PID.ino>
 #include <PWM.ino>

@@ -7,7 +7,12 @@
 */
 void debugProcess()
 {
-
+	#ifdef OUT_BAT
+	Serial.print("BAT: ");
+	Serial.println(batVol);
+	delay(100);
+	#endif
+	
 	#ifdef OUT_RX
 	Serial.print("AIL: "); Serial.print(RX[AIL]); Serial.print("\t");
 	Serial.print("ELE: "); Serial.print(RX[ELE]); Serial.print("\t");

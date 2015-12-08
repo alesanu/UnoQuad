@@ -9,7 +9,7 @@
 #include "SerialCommand.h"
 #include "global.h"
 
-int battery_voltage;
+float batVol;
 
 float  setPoint[3];
 float  pidOut[3];
@@ -39,7 +39,7 @@ static void checkState()
 
 static void arm(uint8_t value)
 {
-  beep(100);
+	beep(100);
 	if (value && !State.Armed)
 	{
 		State.Armed = ON;
@@ -75,20 +75,18 @@ static void armingLoop()
 	}
 }
 
-int batVoltage()
+void batVoltage()
 {
-	static int batt;
-	//A complementary filter is used to reduce noise.
-	//0.09853 = 0.08 * 1.2317.
-	batt = batt * 0.92 + (analogRead(0) + 65) * 0.09853;
-	return batt;
+	batVol =(analogRead(0) + 25) * 0.48828f;
+	if (batVol > 60 && batVol < LOW_VOLTAGE) digitalWrite(BUZZ_PIN,HIGH);
+	else digitalWrite(BUZZ_PIN,LOW);
 }
 void mixers(int throttle)
 {
 	//	  (1)\   /(2)
-	//        \ /              x
-	//         X		       |
-	//        / \         y____|
+	//        \ /				x
+	//         X				|
+	//        / \          y____|
 	//    (4)/   \(3)
 	//
 	//region of mixer PID Roll-Pitch-Yaw-Throttle
@@ -100,10 +98,9 @@ void mixers(int throttle)
 
 
 	//region of battery low voltage compensate
-	int bat = batVoltage();
-	if (bat < 1240 && bat > 800)
+	if (batVol > 60 && batVol < 125)
 	{
-		for (uint8_t i=1; i<=4; i++) escPwm[i] += escPwm[i] * ((1240 - bat)/(float)3500);
+		for (uint8_t i=1; i<=4; i++) escPwm[i] += escPwm[i] * ((125 - batVol)/350);
 	}
 	//region of limit output
 	for (uint8_t i=1; i<=4; i++)
@@ -128,7 +125,7 @@ void setup()
 	commandInit();
 	#endif
 	digitalWrite(LED_PIN,HIGH);
-  beep(500);
+	beep(500);
 	Serial.println("Init Success");
 }
 
@@ -149,6 +146,7 @@ void loop()
 {
 	gyroReadRaw();
 	gyroCaculate();
+	batVoltage();
 	rxRead();
 	checkState();
 	armingLoop();
@@ -157,19 +155,20 @@ void loop()
 	
 	if (State.Armed && !State.ThrottleOff)
 	{
+		mixers(RX_raw[THR]);
+		
 		if (RX[AUX] > 0)
 		{
-			mixers(landing());
+			setPoint[ROL] = -RX[AIL]/2.5;
+			setPoint[PIT] =  RX[ELE]/2.5;
+			setPoint[YAW] = -RX[RUD]/2.5;
 		}
 		else
 		{
-			throttleCapture = RX_raw[THR];
-			mixers(RX_raw[THR]);
+			setPoint[ROL] =  RX[AIL]/2.5;
+			setPoint[PIT] = -RX[ELE]/2.5;
+			setPoint[YAW] =  RX[RUD]/2.5;
 		}
-		
-		setPoint[ROL] = RX[AIL]/3;
-		setPoint[PIT] = -RX[ELE]/3;
-		setPoint[YAW] = RX[RUD]/3;
 	}
 	else
 	{

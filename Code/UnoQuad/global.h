@@ -10,6 +10,7 @@
 #define GLOBAL_H_
 
 //#define DEBUG
+//#define OUT_BAT
 //#define OUT_MOTOR
 //#define OUT_RX
 //#define OUT_GYRO
@@ -28,6 +29,8 @@
 
 #define ON		1
 #define OFF		0
+
+#define LOW_VOLTAGE		113		//alarm Low voltage 11.3V
 
 #define ARM_DELAY			500	// in ms
 #define RX_THRESHOLD		50  // arming ON/OFF
