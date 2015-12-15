@@ -11,7 +11,7 @@ void pidInit()
 {
 	pid.roll.Kp = 1.3;	//stable: 1.3
 	pid.roll.Ki = 0.05;	//stable: 0.05
-	pid.roll.Kd = 25;	//stable: 25
+	pid.roll.Kd = 20;	//stable: 25
 	pid.roll.max = 400;	//stable: 400
 	
 	pid.pitch.Kp = pid.roll.Kp;

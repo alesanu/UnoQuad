@@ -96,12 +96,14 @@ void mixers(int throttle)
 	escPwm[3] = throttle + pidOut[ROL] + pidOut[PIT] + pidOut[YAW];
 	escPwm[4] = throttle - pidOut[ROL] + pidOut[PIT] - pidOut[YAW];
 
-
+	#if 0 // Remove test BUG [12/15/2015 QuocTuanIT]
 	//region of battery low voltage compensate
 	if (batVol > 60 && batVol < 125)
 	{
 		for (uint8_t i=1; i<=4; i++) escPwm[i] += escPwm[i] * ((125 - batVol)/350);
 	}
+	#endif
+	
 	//region of limit output
 	for (uint8_t i=1; i<=4; i++)
 	{
